@@ -1,7 +1,8 @@
 import express, { Application } from 'express'
 import cors from 'cors'
-import usersRouter from './app/modules/users/users.route'
+
 import globalErrorHandler from './app/middlewares/globalErrorHandler'
+import { usersRouters } from './app/modules/users/user.route'
 
 const app: Application = express()
 app.use(cors())
@@ -11,11 +12,10 @@ app.use(express.urlencoded({ extended: true }))
 
 // console.log(process.env)
 
-app.use('/api/v1/users/', usersRouter)
+app.use('/api/v1/users/', usersRouters)
 
-// app.get('/',  (req , res ,next) => {
-//   throw new ApiError(400,"error ")
-//   // next('Next error')
+// app.get('/',  async(req:Request , res:Response ,next:NextFunction) => {
+// console.log(x);
 // })
 // app.use((err,req:Request,res:Response,next:NextFunction)=>{
 //   if(err instanceof Error){
