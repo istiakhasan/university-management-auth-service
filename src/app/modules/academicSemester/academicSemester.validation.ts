@@ -18,7 +18,7 @@ const createAcademicSemesterZodSchema = z.object({
     startMonth: z.enum([...academicSemesterMonths] as [string, ...string[]], {
       required_error: 'Start month is required',
     }),
-    endtMonth: z.enum([...academicSemesterMonths] as [string, ...string[]], {
+    endMonth: z.enum([...academicSemesterMonths] as [string, ...string[]], {
       required_error: 'End month is required',
     }),
   }),

@@ -2,17 +2,21 @@ import express, { Application } from 'express'
 import cors from 'cors'
 
 import globalErrorHandler from './app/middlewares/globalErrorHandler'
-import { usersRouters } from './app/modules/user/user.route'
+import routers from './app/routes'
 
 const app: Application = express()
+//middleware initialize
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 // application routes
+app.use('/api/v1/', routers)
+// app.get('/',(req,res)=>{
+//     throw new ApiError(400,'some thing went wrong')
+// })
 
-// console.log(process.env)
-
-app.use('/api/v1/users/', usersRouters)
+// app.use('/api/v1/users/', usersRouters)
+// app.use('/api/v1/academic-semesters', academicSemesterRouters)
 
 // app.get('/',  async(req:Request , res:Response ,next:NextFunction) => {
 // console.log(x);

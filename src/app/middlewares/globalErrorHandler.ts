@@ -9,6 +9,8 @@ import { ZodError } from 'zod'
 import handleZodError from '../../errors/handleZodError'
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
+  console.log(error, 'error')
+  console.log('found an error ==================================')
   // res.status(400).json({ err: error })
   // next()
 
@@ -16,11 +18,10 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   config.env === 'development'
     ? console.log(`globalErrorHandler~`, error)
     : errorlogger.error('globalerrorHandler', error)
-
   let statusCode = 500
   let message = 'Something went wrong !'
   let errorMessages: IGenericErrorMessage[] = []
-
+  console.log('found the error .....')
   if (error?.name === 'ValidationError') {
     const simplifiedError = handleValidationError(error)
     statusCode = simplifiedError.statusCode
