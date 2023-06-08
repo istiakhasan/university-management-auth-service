@@ -11,9 +11,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 // application routes
 app.use('/api/v1/', routers)
-// app.get('/',(req,res)=>{
-//     throw new ApiError(400,'some thing went wrong')
-// })
 
 // app.use('/api/v1/users/', usersRouters)
 // app.use('/api/v1/academic-semesters', academicSemesterRouters)
