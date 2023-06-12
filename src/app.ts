@@ -1,8 +1,9 @@
-import express, { Application } from 'express'
+import express, { Application, NextFunction, Request, Response } from 'express'
 import cors from 'cors'
 
 import globalErrorHandler from './app/middlewares/globalErrorHandler'
 import routers from './app/routes'
+import httpStatus from 'http-status'
 
 const app: Application = express()
 //middleware initialize
@@ -12,23 +13,23 @@ app.use(express.urlencoded({ extended: true }))
 // application routes
 app.use('/api/v1/', routers)
 
-// app.use('/api/v1/users/', usersRouters)
-// app.use('/api/v1/academic-semesters', academicSemesterRouters)
-
 // app.get('/',  async(req:Request , res:Response ,next:NextFunction) => {
 // console.log(x);
 // })
-// app.use((err,req:Request,res:Response,next:NextFunction)=>{
-//   if(err instanceof Error){
-//     res.status(400).json({error:err})
-//   }else{
-//     res.status(500).json({
-//       error:'Something went wrong'
-//     })
-//   }
-//   console.log(err);
-// })
 
 app.use(globalErrorHandler)
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.status(httpStatus.NOT_FOUND).json({
+    success: false,
+    message: 'Not Found',
+    errorMessages: [
+      {
+        path: req.originalUrl,
+        message: 'Api not found',
+      },
+    ],
+  })
+  next()
+})
 
 export default app

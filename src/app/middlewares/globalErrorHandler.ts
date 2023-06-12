@@ -7,6 +7,7 @@ import ApiError from '../../errors/ApiError'
 import { errorlogger } from '../../shared/logger'
 import { ZodError } from 'zod'
 import handleZodError from '../../errors/handleZodError'
+import handlCastError from '../../errors/handlCastError'
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   console.log(error, 'error')
@@ -29,6 +30,11 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     errorMessages = simplifiedError.errorMessages
   } else if (error instanceof ZodError) {
     const simplifiedError = handleZodError(error)
+    statusCode = simplifiedError.statusCode
+    message = simplifiedError.message
+    errorMessages = simplifiedError.errorMessages
+  } else if (error?.name === 'CastError') {
+    const simplifiedError = handlCastError(error)
     statusCode = simplifiedError.statusCode
     message = simplifiedError.message
     errorMessages = simplifiedError.errorMessages
