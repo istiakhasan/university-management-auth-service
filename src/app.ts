@@ -1,23 +1,29 @@
-import express, { Application, NextFunction, Request, Response } from 'express'
 import cors from 'cors'
-
-import globalErrorHandler from './app/middlewares/globalErrorHandler'
-import routers from './app/routes'
+import express, { Application, NextFunction, Request, Response } from 'express'
 import httpStatus from 'http-status'
-
+import globalErrorHandler from './app/middlewares/globalErrorHandler'
+import routes from './app/routes'
 const app: Application = express()
-//middleware initialize
+
 app.use(cors())
+
+//parser
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-// application routes
-app.use('/api/v1/', routers)
 
-// app.get('/',  async(req:Request , res:Response ,next:NextFunction) => {
-// console.log(x);
+// app.use('/api/v1/users/', UserRoutes);
+// app.use('/api/v1/academic-semesters', AcademicSemesterRoutes);
+app.use('/api/v1', routes)
+
+//Testing
+// app.get('/', async (req: Request, res: Response, next: NextFunction) => {
+//   throw new Error('Testing Error logger')
 // })
 
+//global error handler
 app.use(globalErrorHandler)
+
+//handle not found
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(httpStatus.NOT_FOUND).json({
     success: false,
@@ -25,8 +31,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     errorMessages: [
       {
         path: req.originalUrl,
-
-        message: 'Api not found',
+        message: 'API Not Found',
       },
     ],
   })
