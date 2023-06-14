@@ -11,7 +11,10 @@ import {
 } from './academicSemester.constant'
 import ApiError from '../../../errors/ApiError'
 
-const academicSemesterSchema = new Schema<IAcademicSemester>(
+const academicSemesterSchema = new Schema<
+  IAcademicSemester,
+  AcademicSemesterModel
+>(
   {
     title: {
       type: String,

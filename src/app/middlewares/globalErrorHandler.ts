@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import { ErrorRequestHandler } from 'express'
 import config from '../../config'
@@ -10,11 +11,6 @@ import handleZodError from '../../errors/handleZodError'
 import handlCastError from '../../errors/handlCastError'
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
-  console.log(error, 'error')
-  console.log('found an error ==================================')
-  // res.status(400).json({ err: error })
-  // next()
-
   // eslint-disable-next-line no-unused-expressions
   config.env === 'development'
     ? console.log(`globalErrorHandler~`, error)
@@ -22,7 +18,6 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   let statusCode = 500
   let message = 'Something went wrong !'
   let errorMessages: IGenericErrorMessage[] = []
-  console.log('found the error .....')
   if (error?.name === 'ValidationError') {
     const simplifiedError = handleValidationError(error)
     statusCode = simplifiedError.statusCode
@@ -60,13 +55,13 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
         ]
       : []
   }
+  next()
   res.status(statusCode).json({
     success: false,
     message,
     errorMessages,
     stack: config.env !== 'production' ? error?.stack : undefined,
   })
-  next()
 }
 
 export default globalErrorHandler

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { bloodGroup, gender } from '../student/student.constant'
 
-const createUserZodSchema = z.object({
+const createStudentZodSchema = z.object({
   body: z.object({
     password: z.string().optional(),
 
@@ -90,6 +90,43 @@ const createUserZodSchema = z.object({
   }),
 })
 
+const createAdminZodSchema = z.object({
+  body: z.object({
+    password: z.string().optional(),
+    admin: z.object({
+      id: z.string({
+        required_error: 'Id is required',
+      }),
+      name: z.object({
+        firstName: z.string({ required_error: 'First name is required' }),
+        middleName: z.string().optional(),
+        lastName: z.string({ required_error: 'Last name is required' }),
+      }),
+      dateOfBirth: z.string({
+        required_error: 'Date of birth is required',
+      }),
+      email: z.string({ required_error: 'Email is required' }).email(),
+      contactNo: z.string({ required_error: 'Contact no is  required' }),
+      emergencyContactNo: z.string({
+        required_error: 'Emergency contact no is required',
+      }),
+      gender: z.enum(['male', 'female'], {
+        required_error: 'Gender is required',
+      }),
+      permanentAddress: z.string({
+        required_error: 'Permanent address is required',
+      }),
+      bloodGroup: z.string().optional(),
+      managementDepartment: z.string({
+        required_error: 'Management depeartment is required',
+      }),
+      designation: z.string({ required_error: 'Designation is required' }),
+      profileImage: z.string().optional(),
+    }),
+  }),
+})
+
 export const UserValidation = {
-  createUserZodSchema,
+  createStudentZodSchema,
+  createAdminZodSchema,
 }
