@@ -55,13 +55,14 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
         ]
       : []
   }
-  next()
+
   res.status(statusCode).json({
     success: false,
     message,
     errorMessages,
     stack: config.env !== 'production' ? error?.stack : undefined,
   })
+  next()
 }
 
 export default globalErrorHandler
